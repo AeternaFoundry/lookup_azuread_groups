@@ -8,5 +8,12 @@ data "azuread_groups" "groups_lookup" {
   object_ids          = each.value.object_ids
   return_all          = each.value.return_all
   security_enabled    = each.value.security_enabled
+
+  dynamic "timeouts" {
+    for_each = each.value.timeouts != null ? [each.value.timeouts] : []
+    content {
+      read = timeouts.value.read
+    }
+  }
 }
 
